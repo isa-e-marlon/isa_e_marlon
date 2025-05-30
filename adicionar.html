@@ -1,0 +1,50 @@
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adicionar Conteúdo</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Adicionar Conteúdo</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Mensagens</a></li>
+                <li><a href="lugares.html">Lugares para Ir</a></li>
+                <li><a href="adicionar.html">Adicionar</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section id="adicionar">
+            <h2>Adicionar Mensagem</h2>
+            
+  
+<form id="adicionar-mensagem-form">
+  <label for="imagem-url">Escolha uma imagem:</label>
+  <input type="file" id="imagem-url" name="imagem-url" accept="image/*" required>
+  
+  <label for="mensagem">Mensagem:</label>
+  <textarea id="mensagem" name="mensagem" required></textarea>
+  
+  <button type="submit">Adicionar Mensagem</button>
+</form>
+
+
+            <h2>Adicionar Lugar</h2>
+            <form id="adicionar-lugar-form">
+                <label for="nome-lugar">Nome do Lugar:</label>
+                <input type="text" id="nome-lugar" name="nome-lugar" required>
+                <label for="data-visita">Data da Visita:</label>
+                <input type="date" id="data-visita" name="data-visita" required>
+                <button type="submit">Adicionar Lugar</button>
+            </form>
+        </section>
+    </main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
