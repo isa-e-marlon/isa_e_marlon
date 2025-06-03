@@ -1,24 +1,35 @@
-
 const SUPABASE_URL = 'https://lejsawwjzbgjussohadn.supabase.co';
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlanNhd3dqemJnanVzc29oYWRuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0ODUyNjIxMSwiZXhwIjoyMDY0MTAyMjExfQ.pu6xATHMfR6SzFp6fuw4ECCwyvolX0fXVb8QEuhlMlk'; // sua chave completa aqui
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlanNhd3dqemJnanVzc29oYWRuIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0ODUyNjIxMSwiZXhwIjoyMDY0MTAyMjExfQ.pu6xATHMfR6SzFp6fuw4ECCwyvolX0fXVb8QEuhlMlk';
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
+// Quando o DOM for carregado
 document.addEventListener('DOMContentLoaded', () => {
-  const container = document.getElementById('lugares-container');
-  if (container) {
-    carregarLugares(container);
+  // Carregar lugares se o container existir
+  const lugaresContainer = document.getElementById('lugares-container');
+  if (lugaresContainer) {
+    carregarLugares(lugaresContainer);
   }
 
+  // Carregar mensagens se o container existir
+  const mensagensContainer = document.getElementById('mensagens-container');
+  if (mensagensContainer) {
+    carregarMensagens(mensagensContainer);
+  }
+
+  // Formulário de adicionar mensagem
   const mensagemForm = document.getElementById('adicionar-mensagem-form');
   if (mensagemForm) {
     mensagemForm.addEventListener('submit', async (event) => {
       event.preventDefault();
+
       const imagemInput = document.getElementById('imagem-url');
       const mensagem = document.getElementById('mensagem').value;
 
       if (imagemInput.files.length > 0) {
         const imagemFile = imagemInput.files[0];
+
+        // Upload da imagem para o bucket 'imagens'
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('imagens')
           .upload(`public/${imagemFile.name}`, imagemFile);
@@ -30,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const imagemUrl = `${SUPABASE_URL}/storage/v1/object/public/imagens/${uploadData.path}`;
 
+        // Inserção no banco de dados
         const { data, error } = await supabase
           .from('mensagens')
           .insert([{ imagem_url: imagemUrl, mensagem: mensagem }]);
@@ -45,6 +57,7 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// Função para carregar os lugares
 async function carregarLugares(container) {
   const { data, error } = await supabase
     .from('lugares')
@@ -63,7 +76,7 @@ async function carregarLugares(container) {
   }
 
   container.innerHTML = '';
-  data.forEach(lugar => {
+  data.forEach((lugar) => {
     const div = document.createElement('div');
     div.className = 'lugar';
     div.innerHTML = `
@@ -74,18 +87,44 @@ async function carregarLugares(container) {
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  const container = document.getElementById('mensagens-container');
-  if (container) {
-    carregarMensagens(container);
-  }
-});
 
+
+
+const lugarForm = document.getElementById('adicionar-lugar-form');
+
+if (lugarForm) {
+  lugarForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const nomeLugar = document.getElementById('nome_lugar').value.trim();
+    const dataVisita = document.getElementById('data_visita').value;
+
+    if (!nomeLugar || !dataVisita) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from('lugares')
+      .insert([{ nome_lugar: nomeLugar, data_visita: dataVisita }]);
+
+    if (error) {
+      console.error('Erro ao adicionar lugar:', error);
+      alert('Erro ao adicionar lugar.');
+    } else {
+      alert('Lugar adicionado com sucesso!');
+      lugarForm.reset();
+    }
+  });
+}
+
+
+// Função para carregar as mensagens
 async function carregarMensagens(container) {
   const { data, error } = await supabase
     .from('mensagens')
     .select('*')
-       .order('data', { ascending: false });
+    .order('data', { ascending: false });
 
   if (error) {
     console.error('Erro ao carregar mensagens:', error);
@@ -99,7 +138,7 @@ async function carregarMensagens(container) {
   }
 
   container.innerHTML = '';
-  data.forEach(mensagem => {
+  data.forEach((mensagem) => {
     const div = document.createElement('div');
     div.className = 'mensagem';
     div.innerHTML = `
