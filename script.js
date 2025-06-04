@@ -84,7 +84,7 @@ async function carregarLugares(container) {
   const { data, error } = await supabase
     .from('lugares')
     .select('*')
-    .order('data_visita', { ascending: false }); // ordem decrescente
+    .order('data_visita', { ascending: true }); // ordem decrescente
 
   if (error) {
     console.error('Erro ao carregar lugares:', error);
