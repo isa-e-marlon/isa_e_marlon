@@ -84,7 +84,7 @@ async function carregarLugares(container) {
   const { data, error } = await supabase
     .from('lugares')
     .select('*')
-    .order('data_visita', { ascending: true });
+    .order('data_visita', { ascending: false }); // ordem decrescente
 
   if (error) {
     console.error('Erro ao carregar lugares:', error);
@@ -104,9 +104,26 @@ async function carregarLugares(container) {
     div.innerHTML = `
       <p><strong>${lugar.nome_lugar}</strong></p>
       <p><small>${new Date(lugar.data_visita).toLocaleDateString()}</small></p>
-      <button class="excluir-btn2" onclick="excluirLugar(${lugar.id})">🗑️</button>
+      <button class="excluir-btn2" data-id="${lugar.id}">🗑️</button>
     `;
     container.appendChild(div);
+  });
+
+  // Adiciona os event listeners após renderizar
+  document.querySelectorAll('.excluir-btn2').forEach(botao => {
+    botao.addEventListener('click', async (event) => {
+      const id = event.target.getAttribute('data-id');
+      const confirmacao = confirm('Tem certeza que deseja excluir este lugar?');
+      if (!confirmacao) return;
+
+      const { error } = await supabase.from('lugares').delete().eq('id', id);
+      if (error) {
+        console.error('Erro ao excluir lugar:', error);
+      } else {
+        alert('Lugar excluído com sucesso!');
+        carregarLugares(container);
+      }
+    });
   });
 }
 
@@ -175,16 +192,4 @@ async function carregarMensagens(container) {
       }
     });
   });
-}
-async function excluirLugar(id) {
-  if (!confirm('Tem certeza que deseja excluir este lugar?')) return;
-
-  const { error } = await supabase.from('lugares').delete().eq('id', id);
-  if (error) {
-    console.error('Erro ao excluir lugar:', error);
-    return;
-  }
-
-  alert('Lugar excluído com sucesso!');
-  carregarLugares(document.getElementById('lugares-container'));
 }
