@@ -55,17 +55,17 @@ document.addEventListener('DOMContentLoaded', () => {
     lugarForm.addEventListener('submit', async (event) => {
       event.preventDefault();
 
-      const nomeLugar = document.getElementById('nome_lugar').value.trim();
-      const dataVisita = document.getElementById('data_visita').value;
+      const nome_lugar = document.getElementById('nome_lugar').value.trim();
+      const data_visita = document.getElementById('data_visita').value;
 
-      if (!nomeLugar || !dataVisita) {
+      if (!nome_lugar || !data_visita) {
         alert('Por favor, preencha todos os campos.');
         return;
       }
 
       const { data, error } = await supabase
         .from('lugares')
-        .insert([{ nome_lugar: nomeLugar, data_visita: dataVisita }]);
+        .insert([{ nome_lugar: nome_lugar, data_visita: data_visita }]);
 
       if (error) {
         console.error('Erro ao adicionar lugar:', error);
@@ -75,6 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lugarForm.reset();
         carregarLugares(document.getElementById('lugares-container'));
       }
+    }
     });
   }
 });
