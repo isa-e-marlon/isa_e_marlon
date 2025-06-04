@@ -104,7 +104,7 @@ async function carregarLugares(container) {
     div.innerHTML = `
       <p><strong>${lugar.nome_lugar}</strong></p>
       <p><small>${new Date(lugar.data_visita).toLocaleDateString()}</small></p>
-      <button class="excluir-btn" onclick="excluirLugar(${lugar.id})">🗑️</button>
+      <button class="excluir-btn2" onclick="excluirLugar(${lugar.id})">🗑️</button>
     `;
     container.appendChild(div);
   });
