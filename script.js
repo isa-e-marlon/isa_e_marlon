@@ -56,8 +56,8 @@ document.addEventListener('DOMContentLoaded', () => {
     lugarForm.addEventListener('submit', async (event) => {
       event.preventDefault();
 
-      const nome_lugar = document.getElementById('nome_lugar').value.trim();
-      const data_visita = document.getElementById('data_visita').value;
+      const nome_lugar = document.getElementById('nome-lugar').value;
+      const data_visita = document.getElementById('data-visita').value;
 
       if (!nome_lugar || !data_visita) {
         alert('Por favor, preencha todos os campos.');
