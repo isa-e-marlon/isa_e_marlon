@@ -134,7 +134,44 @@ async function carregarMensagens(container) {
       <img src="${mensagem.imagem_url}" alt="Imagem">
       <p>${mensagem.mensagem}</p>
       <p><small>${new Date(mensagem.data).toLocaleDateString()}</small></p>
+      <button class="excluir-btn" data-id="${mensagem.id}" data-img="${mensagem.imagem_url}">🗑️ Excluir</button>
     `;
     container.appendChild(div);
+  });
+
+  document.querySelectorAll('.excluir-btn').forEach((botao) => {
+    botao.addEventListener('click', async (event) => {
+      const id = event.target.getAttribute('data-id');
+      const imagemUrl = event.target.getAttribute('data-img');
+      const confirmacao = confirm('Tem certeza que deseja excluir esta mensagem?');
+
+      if (!confirmacao) return;
+
+      // Extrai o caminho do arquivo a partir da URL
+      const path = imagemUrl.split('/object/public/imagens/')[1];
+
+      // Exclui imagem do storage
+      const { error: erroStorage } = await supabase
+        .storage
+        .from('imagens')
+        .remove([`public/${path}`]);
+
+      if (erroStorage) {
+        console.error('Erro ao excluir imagem:', erroStorage);
+      }
+
+      // Exclui mensagem do banco
+      const { error: erroDB } = await supabase
+        .from('mensagens')
+        .delete()
+        .eq('id', id);
+
+      if (erroDB) {
+        console.error('Erro ao excluir mensagem:', erroDB);
+      } else {
+        alert('Mensagem excluída com sucesso!');
+        carregarMensagens(container); // recarrega a lista
+      }
+    });
   });
 }
