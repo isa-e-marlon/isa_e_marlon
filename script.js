@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', () => {
         lugarForm.reset();
         carregarLugares(document.getElementById('lugares-container'));
       }
-    }
+    
     });
   }
 });
