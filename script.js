@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
           alert('Mensagem adicionada com sucesso!');
           mensagemForm.reset();
+          carregarMensagens(document.getElementById('mensagens-container'));
         }
       }
     });
@@ -65,7 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const { data, error } = await supabase
         .from('lugares')
-        .insert([{ nome_lugar: nome_lugar, data_visita: data_visita }]);
+        .insert([{ nome_lugar, data_visita }]);
 
       if (error) {
         console.error('Erro ao adicionar lugar:', error);
@@ -75,7 +76,6 @@ document.addEventListener('DOMContentLoaded', () => {
         lugarForm.reset();
         carregarLugares(document.getElementById('lugares-container'));
       }
-    
     });
   }
 });
