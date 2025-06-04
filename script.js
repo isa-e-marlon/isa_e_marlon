@@ -104,6 +104,7 @@ async function carregarLugares(container) {
     div.innerHTML = `
       <p><strong>${lugar.nome_lugar}</strong></p>
       <p><small>${new Date(lugar.data_visita).toLocaleDateString()}</small></p>
+      <button class="excluir-btn" onclick="excluirLugar(${lugar.id})">🗑️</button>
     `;
     container.appendChild(div);
   });
@@ -174,4 +175,16 @@ async function carregarMensagens(container) {
       }
     });
   });
+}
+async function excluirLugar(id) {
+  if (!confirm('Tem certeza que deseja excluir este lugar?')) return;
+
+  const { error } = await supabase.from('lugares').delete().eq('id', id);
+  if (error) {
+    console.error('Erro ao excluir lugar:', error);
+    return;
+  }
+
+  alert('Lugar excluído com sucesso!');
+  carregarLugares(document.getElementById('lugares-container'));
 }
