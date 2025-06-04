@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
     lugarForm.addEventListener('submit', async (event) => {
       event.preventDefault();
 
-      const nome_lugar = document.getElementById('nome_lugar').value;
+      const nome_lugar = document.getElementById('nome_lugar').value.trim();
       const data_visita = document.getElementById('data_visita').value;
 
       if (!nome_lugar || !data_visita) {
