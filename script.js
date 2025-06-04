@@ -3,21 +3,17 @@ const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBh
 
 const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-// Quando o DOM for carregado
 document.addEventListener('DOMContentLoaded', () => {
-  // Carregar lugares se o container existir
   const lugaresContainer = document.getElementById('lugares-container');
   if (lugaresContainer) {
     carregarLugares(lugaresContainer);
   }
 
-  // Carregar mensagens se o container existir
   const mensagensContainer = document.getElementById('mensagens-container');
   if (mensagensContainer) {
     carregarMensagens(mensagensContainer);
   }
 
-  // Formulário de adicionar mensagem
   const mensagemForm = document.getElementById('adicionar-mensagem-form');
   if (mensagemForm) {
     mensagemForm.addEventListener('submit', async (event) => {
@@ -29,7 +25,6 @@ document.addEventListener('DOMContentLoaded', () => {
       if (imagemInput.files.length > 0) {
         const imagemFile = imagemInput.files[0];
 
-        // Upload da imagem para o bucket 'imagens'
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('imagens')
           .upload(`public/${imagemFile.name}`, imagemFile);
@@ -41,7 +36,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const imagemUrl = `${SUPABASE_URL}/storage/v1/object/public/imagens/${uploadData.path}`;
 
-        // Inserção no banco de dados
         const { data, error } = await supabase
           .from('mensagens')
           .insert([{ imagem_url: imagemUrl, mensagem: mensagem }]);
@@ -55,9 +49,36 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  const lugarForm = document.getElementById('adicionar-lugar-form');
+  if (lugarForm) {
+    lugarForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+
+      const nomeLugar = document.getElementById('nome_lugar').value.trim();
+      const dataVisita = document.getElementById('data_visita').value;
+
+      if (!nomeLugar || !dataVisita) {
+        alert('Por favor, preencha todos os campos.');
+        return;
+      }
+
+      const { data, error } = await supabase
+        .from('lugares')
+        .insert([{ nome_lugar: nomeLugar, data_visita: dataVisita }]);
+
+      if (error) {
+        console.error('Erro ao adicionar lugar:', error);
+        alert('Erro ao adicionar lugar.');
+      } else {
+        alert('Lugar adicionado com sucesso!');
+        lugarForm.reset();
+        carregarLugares(document.getElementById('lugares-container'));
+      }
+    });
+  }
 });
 
-// Função para carregar os lugares
 async function carregarLugares(container) {
   const { data, error } = await supabase
     .from('lugares')
@@ -87,39 +108,6 @@ async function carregarLugares(container) {
   });
 }
 
-
-
-
-const lugarForm = document.getElementById('adicionar-lugar-form');
-
-if (lugarForm) {
-  lugarForm.addEventListener('submit', async (event) => {
-    event.preventDefault();
-
-    const nomeLugar = document.getElementById('nome_lugar').value.trim();
-    const dataVisita = document.getElementById('data_visita').value;
-
-    if (!nomeLugar || !dataVisita) {
-      alert('Por favor, preencha todos os campos.');
-      return;
-    }
-
-    const { data, error } = await supabase
-      .from('lugares')
-      .insert([{ nome_lugar: nomeLugar, data_visita: dataVisita }]);
-
-    if (error) {
-      console.error('Erro ao adicionar lugar:', error);
-      alert('Erro ao adicionar lugar.');
-    } else {
-      alert('Lugar adicionado com sucesso!');
-      lugarForm.reset();
-    }
-  });
-}
-
-
-// Função para carregar as mensagens
 async function carregarMensagens(container) {
   const { data, error } = await supabase
     .from('mensagens')
