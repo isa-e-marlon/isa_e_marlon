@@ -75,7 +75,7 @@ section {
   margin: 10px 0;
 }
 
-.excluir-btn {
+.excluir-btn,excluir-btn2 {
   background: red;
   color: white;
   border: none;
