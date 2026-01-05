@@ -16,72 +16,83 @@ document.addEventListener('DOMContentLoaded', () => {
     carregarMensagens(mensagensContainer);
   }
 
-  const mensagemForm = document.getElementById('adicionar-mensagem-form');
-  if (mensagemForm) {
-    mensagemForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
+ const mensagemForm = document.getElementById('adicionar-mensagem-form');
 
-      const imagemInput = document.getElementById('imagem-url');
-      const mensagem = document.getElementById('mensagem').value;
+if (mensagemForm) {
+  mensagemForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
 
-      if (imagemInput.files.length > 0) {
-        const imagemFile = imagemInput.files[0];
-        const nomeUnico = `${Date.now()}-${imagemFile.name}`;
+    const imagemInput = document.getElementById('imagem-url');
+    const mensagem = document.getElementById('mensagem').value;
 
+    if (imagemInput.files.length > 0) {
+      const imagemFile = imagemInput.files[0];
 
-        const { data: uploadData, error: uploadError } = await supabase.storage
-          .from('imagens')
-          .upload(nomeUnico, imagemFile);
+      const { data: uploadData, error: uploadError } = await supabase.storage
+        .from('imagens')
+        .upload(public/${imagemFile.name}, imagemFile);
 
-        if (uploadError) {
-          console.error('Erro ao fazer upload da imagem:', uploadError);
-          return;
-        }
-
-        const imagemUrl = `${SUPABASE_URL}/storage/v1/object/public/imagens/${uploadData.path}`;
-
-        const { data, error } = await supabase
-          .from('mensagens')
-          .insert([{ imagem_url: imagemUrl, mensagem: mensagem }]);
-
-        if (error) {
-          console.error('Erro ao adicionar mensagem:', error);
-        } else {
-          alert('Mensagem adicionada com sucesso!');
-          mensagemForm.reset();
-          carregarMensagens(document.getElementById('mensagens-container'));
-        }
-      }
-    });
-  }
-
-  const lugarForm = document.getElementById('adicionar-lugar-form');
-  if (lugarForm) {
-    lugarForm.addEventListener('submit', async (event) => {
-      event.preventDefault();
-
-      const nome_lugar = document.getElementById('nome-lugar').value;
-      const data_visita = document.getElementById('data-visita').value;
-
-      if (!nome_lugar || !data_visita) {
-        alert('Por favor, preencha todos os campos.');
+      if (uploadError) {
+        console.error('Erro ao fazer upload da imagem:', uploadError);
         return;
       }
 
+      const imagemUrl = ${SUPABASE_URL}/storage/v1/object/public/imagens/${uploadData.path};
+
       const { data, error } = await supabase
-        .from('lugares')
-        .insert([{ nome_lugar, data_visita }]);
+        .from('mensagens')
+        .insert([
+          {
+            imagem_url: imagemUrl,
+            mensagem: mensagem
+          }
+        ]);
 
       if (error) {
-        console.error('Erro ao adicionar lugar:', error);
-        alert('Erro ao adicionar lugar.');
+        console.error('Erro ao adicionar mensagem:', error);
       } else {
-        alert('Lugar adicionado com sucesso!');
-        lugarForm.reset();
-        carregarLugares(document.getElementById('lugares-container'));
+        alert('Mensagem adicionada com sucesso!');
+        mensagemForm.reset();
+        carregarMensagens(document.getElementById('mensagens-container'));
       }
-    });
-  }
+    }
+  });
+}
+
+const lugarForm = document.getElementById('adicionar-lugar-form');
+
+if (lugarForm) {
+  lugarForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const nome_lugar = document.getElementById('nome-lugar').value;
+    const data_visita = document.getElementById('data-visita').value;
+
+    if (!nome_lugar || !data_visita) {
+      alert('Por favor, preencha todos os campos.');
+      return;
+    }
+
+    const { data, error } = await supabase
+      .from('lugares')
+      .insert([
+        {
+          nome_lugar,
+          data_visita
+        }
+      ]);
+
+    if (error) {
+      console.error('Erro ao adicionar lugar:', error);
+      alert('Erro ao adicionar lugar.');
+    } else {
+      alert('Lugar adicionado com sucesso!');
+      lugarForm.reset();
+      carregarLugares(document.getElementById('lugares-container'));
+    }
+  });
+}
+
 });
 
 async function carregarLugares(container) {
@@ -102,25 +113,33 @@ async function carregarLugares(container) {
   }
 
   container.innerHTML = '';
+
   data.forEach((lugar) => {
     const div = document.createElement('div');
     div.className = 'lugar';
+
     div.innerHTML = `
       <p><strong>${lugar.nome_lugar}</strong></p>
       <p><small>${new Date(lugar.data_visita).toLocaleDateString()}</small></p>
       <button class="excluir-btn2" data-id="${lugar.id}">🗑️</button>
     `;
+
     container.appendChild(div);
   });
 
   // Adiciona os event listeners após renderizar
-  document.querySelectorAll('.excluir-btn2').forEach(botao => {
+  document.querySelectorAll('.excluir-btn2').forEach((botao) => {
     botao.addEventListener('click', async (event) => {
       const id = event.target.getAttribute('data-id');
       const confirmacao = confirm('Tem certeza que deseja excluir este lugar?');
+
       if (!confirmacao) return;
 
-      const { error } = await supabase.from('lugares').delete().eq('id', id);
+      const { error } = await supabase
+        .from('lugares')
+        .delete()
+        .eq('id', id);
+
       if (error) {
         console.error('Erro ao excluir lugar:', error);
       } else {
@@ -149,15 +168,20 @@ async function carregarMensagens(container) {
   }
 
   container.innerHTML = '';
+
   data.forEach((mensagem) => {
     const div = document.createElement('div');
     div.className = 'mensagem';
+
     div.innerHTML = `
       <img src="${mensagem.imagem_url}" alt="Imagem">
       <p>${mensagem.mensagem}</p>
       <p><small>${new Date(mensagem.data).toLocaleDateString()}</small></p>
-      <button class="excluir-btn" data-id="${mensagem.id}" data-img="${mensagem.imagem_url}">🗑️ Excluir</button>
+      <button class="excluir-btn" data-id="${mensagem.id}" data-img="${mensagem.imagem_url}">
+        🗑️ Excluir
+      </button>
     `;
+
     container.appendChild(div);
   });
 
@@ -165,18 +189,17 @@ async function carregarMensagens(container) {
     botao.addEventListener('click', async (event) => {
       const id = event.target.getAttribute('data-id');
       const imagemUrl = event.target.getAttribute('data-img');
-      const confirmacao = confirm('Tem certeza que deseja excluir esta mensagem?');
 
+      const confirmacao = confirm('Tem certeza que deseja excluir esta mensagem?');
       if (!confirmacao) return;
 
       // Extrai o caminho do arquivo a partir da URL
       const path = imagemUrl.split('/object/public/imagens/')[1];
 
       // Exclui imagem do storage
-      const { error: erroStorage } = await supabase
-        .storage
+      const { error: erroStorage } = await supabase.storage
         .from('imagens')
-        .remove([`public/${path}`]);
+        .remove([public/${path}]);
 
       if (erroStorage) {
         console.error('Erro ao excluir imagem:', erroStorage);
