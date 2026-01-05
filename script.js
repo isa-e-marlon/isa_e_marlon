@@ -39,7 +39,7 @@ const mensagemForm = document.getElementById('adicionar-mensagem-form');
           return;
         }
 
-        const imagemUrl = `${SUPABASE_URL}/storage/v1/object/public/imagens/${uploadData.path}`;
+        const imagemUrl = `${SUPABASE_URL}/storage/v1/object/public/imagens/public/${nomeUnico}`;
 
         const { data, error } = await supabase
           .from('mensagens')
