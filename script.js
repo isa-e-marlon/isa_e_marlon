@@ -26,10 +26,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (imagemInput.files.length > 0) {
         const imagemFile = imagemInput.files[0];
+        const nomeUnico = `${Date.now()}-${imagemFile.name}`;
+
 
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('imagens')
-          .upload(imagemFile, imagemFile);
+          .upload(nomeUnico, imagemFile);
 
         if (uploadError) {
           console.error('Erro ao fazer upload da imagem:', uploadError);
