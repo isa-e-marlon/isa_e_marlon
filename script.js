@@ -31,7 +31,7 @@ const mensagemForm = document.getElementById('adicionar-mensagem-form');
 
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('imagens')
-          .upload(nomeUnico, imagemFile);
+          .upload(public/${nomeUnico.name}, imagemFile);
 
         if (uploadError) {
           console.error('Erro ao fazer upload da imagem:', uploadError);
