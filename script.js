@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('imagens')
-          .upload(`public/${imagemFile.name}`, imagemFile);
+          .upload(imagemFile, imagemFile);
 
         if (uploadError) {
           console.error('Erro ao fazer upload da imagem:', uploadError);
