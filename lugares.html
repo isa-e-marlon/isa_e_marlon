@@ -10,23 +10,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
-        <h1>Lugares para Ir</h1>
-        <nav>
-            <ul>
-                <li><a href="index.html">Mensagens</a></li>
-                <li><a href="lugares.html">Lugares para Ir</a></li>
-                <li><a href="adicionar.html">Adicionar</a></li>
-            </ul>
-        </nav>
-    </header>
-    <main>
-        <section id="lugares">
-            <h2>Lugares</h2>
-            <div id="lugares-container"></div>
-        </section>
-    </main>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    <div class="container">
+        <header>
+            <h1>Lugares para Ir ✈️</h1>
+            <nav>
+                <ul id="menu-principal">
+                    <li><a href="index.html">Mensagens</a></li>
+                    <li><a href="lugares.html">Lugares</a></li>
+                    <li><a href="filmes.html">Filmes</a></li>
+                </ul>
+            </nav>
+        </header>
+        
+        <main>
+            <section id="lugares">
+                <div class="texto-centro">
+                    <h2>Nossa Lista de Destinos</h2>
+                </div>
+                <div id="lugares-container"></div>
+            </section>
+        </main>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7"></script>
     <script src="script.js"></script>
 </body>
 </html>
