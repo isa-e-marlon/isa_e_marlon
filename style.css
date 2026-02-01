@@ -1,101 +1,50 @@
-* { box-sizing: border-box; }
-
-body {
-    font-family: 'Montserrat', sans-serif;
-    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
-    margin: 0;
-    padding: 0;
-    min-height: 100vh;
-    color: #333;
-    line-height: 1.6;
+/* --- LOGIN --- */
+.login-box {
+    background: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: center;
 }
 
-header {
+.login-box h2 {
+    font-family: 'Dancing Script', cursive;
+    color: #6a0dad;
+    margin-bottom: 20px;
+}
+
+/* --- ABAS (TABS) --- */
+.abas-container {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+.aba-btn {
+    background: transparent;
+    border: 2px solid #6a0dad;
+    color: #6a0dad;
+    padding: 10px 20px;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: bold;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s;
+}
+
+.aba-btn:hover {
+    background: rgba(106, 13, 173, 0.1);
+}
+
+.aba-btn.ativa {
     background: linear-gradient(to right, #6a0dad, #9e4fdb);
     color: white;
-    padding: 25px 20px;
-    text-align: center;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    border-color: transparent;
+    box-shadow: 0 4px 10px rgba(106, 13, 173, 0.3);
 }
 
-header h1 {
-    font-family: 'Dancing Script', cursive;
-    font-size: 2.5rem;
-    margin: 0 0 20px 0;
-    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
-}
-
-nav ul {
-    list-style-type: none;
-    padding: 0; margin: 0;
-    display: flex; justify-content: center; flex-wrap: wrap; gap: 15px;
-}
-
-nav ul li a {
-    color: white; text-decoration: none; font-weight: 600;
-    padding: 8px 15px; border-radius: 20px;
-    transition: background-color 0.3s, transform 0.2s;
-    display: inline-block;
-}
-
-nav ul li a:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-    transform: translateY(-2px);
-}
-
-main { max-width: 800px; margin: 30px auto; padding: 0 20px; }
-
-h2 {
-    font-family: 'Dancing Script', cursive; color: #6a0dad;
-    text-align: center; font-size: 2rem; margin-bottom: 30px;
-}
-
-.texto-centro { text-align: center; }
-
-.mensagem, .lugar {
-    background-color: #fff; border-radius: 15px; padding: 25px;
-    margin-bottom: 30px; box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    text-align: center; transition: transform 0.3s;
-}
-
-.mensagem:hover, .lugar:hover { transform: translateY(-5px); }
-
-.mensagem img {
-    width: 100%; max-width: 600px; height: auto;
-    display: block; margin: 0 auto 20px auto;
-    border-radius: 10px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-}
-
-.mensagem p, .lugar p { margin: 15px 0; font-size: 1.1rem; color: #555; }
-.mensagem small, .lugar small { color: #999; font-size: 0.9rem; display: block; margin-top: 10px; }
-.lugar strong { font-size: 1.3rem; color: #6a0dad; }
-
-form {
-    background-color: #fff; padding: 30px; border-radius: 15px;
-    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    max-width: 500px; margin: 0 auto 40px auto;
-    display: flex; flex-direction: column;
-}
-
-form label { font-weight: 600; margin-bottom: 8px; color: #444; }
-
-form input[type="text"], form input[type="date"], form input[type="file"], form textarea {
-    padding: 12px; border: 2px solid #ddd; border-radius: 8px;
-    margin-bottom: 20px; font-family: 'Montserrat', sans-serif;
-    transition: border-color 0.3s; width: 100%;
-}
-
-form textarea { resize: vertical; height: 100px; }
-form input:focus, form textarea:focus { border-color: #9e4fdb; outline: none; }
-
-button[type="submit"] {
-    background: linear-gradient(to right, #6a0dad, #9e4fdb);
-    color: white; padding: 15px; border: none; border-radius: 30px;
-    font-size: 1.1rem; font-weight: 600; cursor: pointer;
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-button[type="submit"]:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 6px 15px rgba(106, 13, 173, 0.3);
-}
+/* Ocultar botões para não logados (segurança visual extra) */
+/* O JS já remove, mas o CSS garante que não pisque na tela */

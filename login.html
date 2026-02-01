@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Cine Casal</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header>
+        <h1>Área Restrita 🔒</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Voltar para o Site</a></li>
+            </ul>
+        </nav>
+    </header>
+    <main>
+        <section class="login-box">
+            <h2>Entre para editar</h2>
+            <form id="login-form">
+                <label for="email">Email:</label>
+                <input type="email" id="email" required placeholder="Seu email">
+                
+                <label for="password">Senha:</label>
+                <input type="password" id="password" required placeholder="Sua senha">
+                
+                <button type="submit">Entrar</button>
+            </form>
+            <p id="login-msg" class="texto-centro"></p>
+        </section>
+    </main>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7"></script>
+    <script src="script.js"></script>
+</body>
+</html>

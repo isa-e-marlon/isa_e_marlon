@@ -3,15 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cine Casal - Mensagens</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <title>Cine Casal</title>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Bem-vinda, Meu Amor! ❤️</h1>
+        <h1>Cine Casal 🎬</h1>
         <nav>
             <ul id="menu-principal">
                 <li><a href="index.html">Mensagens</a></li>
@@ -20,17 +18,23 @@
                 </ul>
         </nav>
     </header>
-    
     <main>
-        <section id="mensagens">
-            <div class="texto-centro">
-                <h2>Nossas Memórias</h2>
-            </div>
-            
-            <div id="mensagens-container"></div>
-        </section>
-    </main>
+        
+        <div class="abas-container">
+            <button class="aba-btn ativa" onclick="mudarAba('quero-ver')">🍿 Quero Ver</button>
+            <button class="aba-btn" onclick="mudarAba('ja-vistos')">⭐ Já Vistos</button>
+        </div>
 
+        <section id="aba-quero-ver" class="conteudo-aba">
+            <div id="lista-desejos-container"></div>
+        </section>
+
+        <section id="aba-ja-vistos" class="conteudo-aba" style="display: none;">
+            <div id="lista-assistidos-container"></div>
+        </section>
+
+    </main>
+    
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7"></script>
     <script src="script.js"></script>
 </body>
