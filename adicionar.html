@@ -3,16 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site Romântico</title>
+    <title>Adicionar Conteúdo</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600;700&family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
-    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <header>
-        <h1>Bem-vinda, Meu Amor!</h1>
+        <h1>Adicionar Conteúdo</h1>
         <nav>
             <ul>
                 <li><a href="index.html">Mensagens</a></li>
@@ -21,15 +20,28 @@
             </ul>
         </nav>
     </header>
-    
     <main>
-        <section id="mensagens">
-            <h2>Mensagens</h2>
-            <div id="mensagens-container"></div>
+        <section id="adicionar">
+            <h2>Adicionar Mensagem</h2>
+            <form id="adicionar-mensagem-form">
+                <label for="imagem-url">Escolha uma imagem:</label>
+                <input type="file" id="imagem-url" name="imagem-url" accept="image/*" required>
+                <label for="mensagem">Mensagem:</label>
+                <textarea id="mensagem" name="mensagem" required></textarea>
+                <button type="submit">Adicionar Mensagem</button>
+            </form>
+
+            <h2>Adicionar Lugar</h2>
+            <form id="adicionar-lugar-form">
+                <label for="nome-lugar">Nome do Lugar:</label>
+                <input type="text" id="nome-lugar" name="nome-lugar" required>
+                <label for="data-visita">Data da Visita:</label>
+                <input type="date" id="data-visita" name="data-visita" required>
+                <button type="submit">Adicionar Lugar</button>
+            </form>
         </section>
     </main>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
     <script src="script.js"></script>
 </body>
 </html>
