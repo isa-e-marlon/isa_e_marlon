@@ -1,4 +1,4 @@
-console.log('SCRIPT FINAL - VERSÃO SEM DATA EM FILMES');
+console.log('SCRIPT CORRIGIDO - VERSÃO FINAL');
 
 const SUPABASE_URL = 'https://lejsawwjzbgjussohadn.supabase.co';
 const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxlanNhd3dqemJnanVzc29oYWRuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDg1MjYyMTEsImV4cCI6MjA2NDEwMjIxMX0.uLeYHOAClgS9UIFqx9R4wMmxCbyH98EEVFxwVI2uk98';
@@ -14,7 +14,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     
     atualizarMenu();
 
-    // Redireciona se tentar entrar em adicionar.html sem logar
+    // Redireciona se tentar entrar em adicionar sem logar
     if (window.location.pathname.includes('adicionar.html') && !usuarioLogado) {
         window.location.href = 'login.html';
     }
@@ -56,7 +56,7 @@ function atualizarMenu() {
     const menu = document.getElementById('menu-principal');
     if (!menu) return;
 
-    // Limpa links dinâmicos antigos
+    // Limpa links antigos
     menu.querySelectorAll('.link-dinamico').forEach(l => l.remove());
 
     if (usuarioLogado) {
@@ -83,10 +83,10 @@ window.sair = async () => {
 }
 
 // ======================================================
-//              CARREGAMENTO (Ajustado)
+//              CARREGAMENTO
 // ======================================================
 
-// 1. FILMES (SEM DATA VISUAL)
+// 1. FILMES (Sem Data Visual)
 async function carregarFilmes() {
     const listaDesejos = document.getElementById('lista-desejos-container');
     const listaAssistidos = document.getElementById('lista-assistidos-container');
@@ -94,12 +94,16 @@ async function carregarFilmes() {
 
     listaDesejos.innerHTML = '<p class="texto-centro">Carregando...</p>';
     
-    // Ordenamos pela data de criação só para ficar na ordem certa (novos em cima)
-    // Mas NÃO vamos exibir essa data no HTML abaixo
+    // Tabela Filmes usa created_at (nova)
     const { data, error } = await supabaseClient
         .from('filmes').select('*').order('created_at', { ascending: false });
 
-    if (error) return;
+    if (error) {
+        // Se der erro aqui, pode ser que a tabela filmes não exista ainda
+        console.error("Erro Filmes:", error);
+        listaDesejos.innerHTML = '<p class="texto-centro">Erro ao carregar filmes. Tabela não criada?</p>';
+        return;
+    }
 
     listaDesejos.innerHTML = '';
     listaAssistidos.innerHTML = '';
@@ -118,7 +122,6 @@ async function carregarFilmes() {
             : '';
 
         if (filme.assistido) {
-            // MOSTRA SÓ: Nome + Estrelas (SEM DATA)
             let estrelas = '';
             for(let i=1; i<=5; i++) estrelas += i <= filme.nota ? '⭐' : '☆';
             
@@ -129,7 +132,6 @@ async function carregarFilmes() {
             `;
             listaAssistidos.appendChild(div);
         } else {
-            // MOSTRA SÓ: Nome + Botão (SEM DATA)
             let interacao = usuarioLogado 
                 ? `<button class="btn-ja-vi" id="btn-ver-${filme.id}">Já assistimos!</button>
                    <div id="avaliar-${filme.id}" class="avaliar-area" style="display:none;">
@@ -144,7 +146,6 @@ async function carregarFilmes() {
             `;
             listaDesejos.appendChild(div);
             
-            // Lógica do botão avaliar
             if (usuarioLogado) {
                 setTimeout(() => {
                     const btn = document.getElementById(`btn-ver-${filme.id}`);
@@ -158,10 +159,11 @@ async function carregarFilmes() {
     });
 }
 
-// 2. LUGARES (COM DATA)
+// 2. LUGARES (Com Data)
 async function carregarLugares(container) {
     container.innerHTML = '<p class="texto-centro">Carregando...</p>';
-    const { data } = await supabaseClient.from('lugares').select('*').order('data_visita'); // Ordena pela data da visita
+    // Tabela Lugares usa data_visita (original)
+    const { data } = await supabaseClient.from('lugares').select('*').order('data_visita');
     if(!data) return;
     container.innerHTML = '';
     data.forEach(l => {
@@ -169,7 +171,6 @@ async function carregarLugares(container) {
         const div = document.createElement('div');
         div.className = 'lugar';
         
-        // Aqui mostramos a data!
         div.innerHTML = `
             <p><strong>📍 ${l.nome_lugar}</strong></p>
             <p><small>${new Date(l.data_visita + 'T12:00:00').toLocaleDateString('pt-BR')}</small></p>
@@ -179,11 +180,22 @@ async function carregarLugares(container) {
     });
 }
 
-// 3. MENSAGENS (COM DATA)
+// 3. MENSAGENS (Com Data - CORRIGIDO PARA USAR 'data')
 async function carregarMensagens(container) {
     container.innerHTML = '<p class="texto-centro">Carregando...</p>';
-    // Usa created_at (que criamos no SQL) para ordenar
-    const { data } = await supabaseClient.from('mensagens').select('*').order('created_at', {ascending:false});
+    
+    // CORREÇÃO: Usando .order('data') em vez de 'created_at'
+    const { data, error } = await supabaseClient
+        .from('mensagens')
+        .select('*')
+        .order('data', {ascending:false});
+
+    if(error) {
+        console.error("Erro Mensagens:", error);
+        container.innerHTML = '<p class="texto-centro">Erro ao carregar mensagens.</p>';
+        return;
+    }
+    
     if(!data) return;
     container.innerHTML = '';
     data.forEach(m => {
@@ -191,11 +203,9 @@ async function carregarMensagens(container) {
         const div = document.createElement('div');
         div.className = 'mensagem';
         
-        // Tentamos usar created_at, se não existir (mensagens muito velhas), tenta data, ou data atual
-        const dataOriginal = m.created_at || m.data || new Date();
-        const dataFormatada = new Date(dataOriginal).toLocaleDateString('pt-BR');
+        // Usa a coluna 'data' para exibir
+        const dataFormatada = m.data ? new Date(m.data).toLocaleDateString('pt-BR') : '';
 
-        // Aqui mostramos a data!
         div.innerHTML = `
             <img src="${m.imagem_url}">
             <p>${m.mensagem}</p>
@@ -248,7 +258,7 @@ function configurarFormularios() {
                 if(tabela === 'filmes') {
                     const nome = document.getElementById('nome-filme').value;
                     await supabaseClient.from('filmes').insert([{ nome_filme: nome }]);
-                    alert('Filme salvo!'); form.reset(); carregarFilmes(); // Recarrega a lista na hora
+                    alert('Filme salvo!'); form.reset(); carregarFilmes();
                 }
                 if(tabela === 'lugares') {
                      const nome = document.getElementById('nome-lugar').value;
@@ -262,7 +272,8 @@ function configurarFormularios() {
     setupForm('adicionar-filme-form', 'filmes');
     setupForm('adicionar-lugar-form', 'lugares');
 
-    // Mensagens (Lógica de Imagem)
+    // Mensagens (Com Data Automática ou Manual?)
+    // Vamos assumir que o banco preenche a data automaticamente, ou usamos a data de hoje.
     const msgForm = document.getElementById('adicionar-mensagem-form');
     if(msgForm) {
         msgForm.addEventListener('submit', async (e) => {
@@ -278,18 +289,4 @@ function configurarFormularios() {
                 const texto = document.getElementById('mensagem').value;
                 if(imgInput.files.length > 0) {
                     const arquivo = imgInput.files[0];
-                    const nomeArquivo = `public/${Date.now()}-${arquivo.name.replace(/\s/g, '-')}`;
-                    const { error: upError } = await supabaseClient.storage.from('imagens').upload(nomeArquivo, arquivo);
-                    if(upError) throw upError;
-                    
-                    const urlFinal = `${SUPABASE_URL}/storage/v1/object/public/imagens/${nomeArquivo}`;
-                    const { error: insError } = await supabaseClient.from('mensagens').insert([{ imagem_url: urlFinal, mensagem: texto }]);
-                    if(insError) throw insError;
-                    
-                    alert('Enviado!'); msgForm.reset();
-                }
-            } catch(err) { console.error(err); alert('Erro no envio.'); }
-            finally { btn.innerText = txt; btn.disabled = false; }
-        });
-    }
-}
+                    const nomeArquivo = `public/${Date.now()}-${arquivo.name.replace(/\s/g
