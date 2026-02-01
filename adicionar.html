@@ -11,37 +11,57 @@
 </head>
 <body>
     <header>
-        <h1>Adicionar Conteúdo</h1>
+        <h1>Adicionar Novo Conteúdo 📝</h1>
         <nav>
-            <ul>
+            <ul id="menu-principal">
                 <li><a href="index.html">Mensagens</a></li>
-                <li><a href="lugares.html">Lugares para Ir</a></li>
-                <li><a href="adicionar.html">Adicionar</a></li>
+                <li><a href="lugares.html">Lugares</a></li>
+                <li><a href="filmes.html">Filmes</a></li>
             </ul>
         </nav>
     </header>
+    
     <main>
         <section id="adicionar">
-            <h2>Adicionar Mensagem</h2>
+            
+            <h2>Nova Mensagem com Foto</h2>
             <form id="adicionar-mensagem-form">
-                <label for="imagem-url">Escolha uma imagem:</label>
+                <label for="imagem-url">Escolha a foto:</label>
                 <input type="file" id="imagem-url" name="imagem-url" accept="image/*" required>
-                <label for="mensagem">Mensagem:</label>
-                <textarea id="mensagem" name="mensagem" required></textarea>
-                <button type="submit">Adicionar Mensagem</button>
+                
+                <label for="mensagem">Escreva algo fofo:</label>
+                <textarea id="mensagem" name="mensagem" required placeholder="Digite sua mensagem aqui..."></textarea>
+                
+                <button type="submit">Enviar Mensagem</button>
             </form>
 
-            <h2>Adicionar Lugar</h2>
-            <form id="adicionar-lugar-form">
-                <label for="nome-lugar">Nome do Lugar:</label>
-                <input type="text" id="nome-lugar" name="nome-lugar" required>
-                <label for="data-visita">Data da Visita:</label>
-                <input type="date" id="data-visita" name="data-visita" required>
-                <button type="submit">Adicionar Lugar</button>
+            <hr class="divisor-bonito">
+
+            <h2>Novo Filme para a Lista</h2>
+            <form id="adicionar-filme-form">
+                <label for="nome-filme">Nome do Filme:</label>
+                <input type="text" id="nome-filme" name="nome-filme" required placeholder="Ex: Como eu era antes de você">
+                
+                <button type="submit">Adicionar Filme</button>
             </form>
+
+            <hr class="divisor-bonito">
+
+            <h2>Novo Lugar Visitado</h2>
+            <form id="adicionar-lugar-form">
+                <label for="nome-lugar">Onde fomos?</label>
+                <input type="text" id="nome-lugar" name="nome-lugar" required placeholder="Ex: Restaurante Japonês">
+                
+                <label for="data-visita">Quando foi?</label>
+                <input type="date" id="data-visita" name="data-visita" required>
+                
+                <button type="submit">Salvar Lugar</button>
+            </form>
+
         </section>
     </main>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+    
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@1.35.7"></script>
     <script src="script.js"></script>
 </body>
 </html>
