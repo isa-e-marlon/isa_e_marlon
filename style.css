@@ -1,50 +1,102 @@
-/* --- LOGIN --- */
-.login-box {
-    background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-    max-width: 400px;
-    margin: 50px auto;
+/* =========================================
+   1. RESET E ESTRUTURA BÁSICA
+   ========================================= */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', sans-serif;
+    /* Degradê romântico de fundo */
+    background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
+    margin: 0;
+    padding: 0;
+    min-height: 100vh;
+    color: #333;
+    line-height: 1.6;
+}
+
+main {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 0 20px;
+    min-height: 60vh;
+}
+
+/* =========================================
+   2. CABEÇALHO E MENU
+   ========================================= */
+header {
+    background: linear-gradient(to right, #6a0dad, #9e4fdb);
+    color: white;
+    padding: 25px 20px;
     text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
 }
 
-.login-box h2 {
+header h1 {
     font-family: 'Dancing Script', cursive;
-    color: #6a0dad;
-    margin-bottom: 20px;
+    font-size: 2.5rem;
+    margin: 0 0 20px 0;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
-/* --- ABAS (TABS) --- */
-.abas-container {
+nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
     display: flex;
     justify-content: center;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 8px 15px;
+    border-radius: 20px;
+    transition: background-color 0.3s, transform 0.2s;
+    display: inline-block;
+}
+
+nav ul li a:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+/* Link de Sair (destaque sutil se necessário) */
+nav ul li a[onclick="sair()"]:hover {
+    background-color: rgba(255, 0, 0, 0.3);
+}
+
+/* =========================================
+   3. TIPOGRAFIA E UTILITÁRIOS
+   ========================================= */
+h2 {
+    font-family: 'Dancing Script', cursive;
+    color: #6a0dad;
+    text-align: center;
+    font-size: 2rem;
     margin-bottom: 30px;
 }
 
-.aba-btn {
-    background: transparent;
-    border: 2px solid #6a0dad;
-    color: #6a0dad;
-    padding: 10px 20px;
-    border-radius: 25px;
-    cursor: pointer;
-    font-weight: bold;
-    font-family: 'Montserrat', sans-serif;
-    transition: all 0.3s;
+.texto-centro {
+    text-align: center;
 }
 
-.aba-btn:hover {
-    background: rgba(106, 13, 173, 0.1);
+.divisor-bonito {
+    border: 0;
+    height: 1px;
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(106, 13, 173, 0.75), rgba(0, 0, 0, 0));
+    margin: 40px 0;
 }
 
-.aba-btn.ativa {
-    background: linear-gradient(to right, #6a0dad, #9e4fdb);
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 4px 10px rgba(106, 13, 173, 0.3);
-}
-
-/* Ocultar botões para não logados (segurança visual extra) */
-/* O JS já remove, mas o CSS garante que não pisque na tela */
+/* =========================================
+   4. CARTÕES (MENSAGENS, LUGARES, FILMES)
+   ========================================= */
+.mensagem, .lugar, .card-filme {
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 25px
