@@ -1,5 +1,5 @@
 /* =========================================
-   1. RESET E ESTRUTURA BÁSICA
+   STYLE.CSS - VERSÃO VISUAL ORIGINAL (640px)
    ========================================= */
 * {
     box-sizing: border-box;
@@ -7,7 +7,7 @@
 
 body {
     font-family: 'Montserrat', sans-serif;
-    /* Degradê romântico de fundo */
+    /* Fundo roxo/rosa degradê */
     background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%);
     margin: 0;
     padding: 0;
@@ -16,16 +16,15 @@ body {
     line-height: 1.6;
 }
 
+/* CONTAINER PRINCIPAL (Restaurado para 1000px como no original) */
 main {
-    max-width: 800px;
+    width: 100%;
+    max-width: 1000px; /* Tamanho original do seu container */
     margin: 30px auto;
     padding: 0 20px;
-    min-height: 60vh;
+    background-color: transparent; /* O fundo branco fica nos cards */
 }
 
-/* =========================================
-   2. CABEÇALHO E MENU
-   ========================================= */
 header {
     background: linear-gradient(to right, #6a0dad, #9e4fdb);
     color: white;
@@ -41,6 +40,7 @@ header h1 {
     text-shadow: 1px 1px 3px rgba(0,0,0,0.2);
 }
 
+/* MENU */
 nav ul {
     list-style-type: none;
     padding: 0;
@@ -66,14 +66,6 @@ nav ul li a:hover {
     transform: translateY(-2px);
 }
 
-/* Link de Sair (destaque sutil se necessário) */
-nav ul li a[onclick="sair()"]:hover {
-    background-color: rgba(255, 0, 0, 0.3);
-}
-
-/* =========================================
-   3. TIPOGRAFIA E UTILITÁRIOS
-   ========================================= */
 h2 {
     font-family: 'Dancing Script', cursive;
     color: #6a0dad;
@@ -82,21 +74,57 @@ h2 {
     margin-bottom: 30px;
 }
 
-.texto-centro {
-    text-align: center;
-}
+.texto-centro { text-align: center; }
 
-.divisor-bonito {
-    border: 0;
-    height: 1px;
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(106, 13, 173, 0.75), rgba(0, 0, 0, 0));
-    margin: 40px 0;
-}
-
-/* =========================================
-   4. CARTÕES (MENSAGENS, LUGARES, FILMES)
-   ========================================= */
+/* CARTÕES */
 .mensagem, .lugar, .card-filme {
     background-color: #fff;
     border-radius: 15px;
-    padding: 25px
+    padding: 25px;
+    margin-bottom: 30px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+    text-align: center;
+    position: relative;
+    overflow: hidden; 
+}
+
+/* --- AQUI ESTÁ A TRAVA DA FOTO (Restaurada para 640px) --- */
+.mensagem img {
+    width: 640px;            /* Largura fixa como antes */
+    max-width: 100%;         /* Garante que não estoure no celular */
+    height: auto;
+    display: block;
+    margin: 0 auto 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.mensagem p, .lugar p { margin: 15px 0; font-size: 1.1rem; color: #555; }
+.mensagem small, .lugar small { color: #999; font-size: 0.9rem; display: block; margin-top: 5px; }
+.lugar strong, .nome-filme { font-size: 1.3rem; color: #6a0dad; display: block; margin-bottom: 10px; }
+
+/* ABAS FILMES */
+.abas-container { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
+.aba-btn { background: transparent; border: 2px solid #6a0dad; color: #6a0dad; padding: 10px 25px; border-radius: 25px; cursor: pointer; font-weight: bold; font-family: 'Montserrat', sans-serif; transition: all 0.3s; }
+.aba-btn.ativa { background: linear-gradient(to right, #6a0dad, #9e4fdb); color: white; border-color: transparent; }
+
+/* BOTÕES GERAIS */
+.btn-ja-vi { background-color: #6a0dad; color: white; border: none; padding: 8px 16px; border-radius: 20px; cursor: pointer; margin-top: 10px; }
+.estrelas-btn { font-size: 1.5rem; cursor: pointer; background: none; border: none; color: #ffd700; padding: 0 2px; }
+
+/* FORMULÁRIOS & LOGIN */
+form { background-color: #fff; padding: 30px; border-radius: 15px; box-shadow: 0 8px 20px rgba(0,0,0,0.08); max-width: 500px; margin: 0 auto 40px auto; display: flex; flex-direction: column; }
+.login-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); max-width: 400px; margin: 50px auto; text-align: center; }
+
+form label { font-weight: 600; margin-bottom: 8px; color: #444; text-align: left; }
+form input, form textarea { padding: 12px; border: 2px solid #ddd; border-radius: 8px; margin-bottom: 20px; font-family: 'Montserrat', sans-serif; width: 100%; }
+form textarea { resize: vertical; height: 100px; }
+
+button[type="submit"] { background: linear-gradient(to right, #6a0dad, #9e4fdb); color: white; padding: 15px; border: none; border-radius: 30px; font-size: 1.1rem; font-weight: 600; cursor: pointer; }
+button[type="submit"]:hover { transform: translateY(-3px); }
+
+/* BOTÕES DE EXCLUIR */
+.excluir-btn, .excluir-btn2 { background-color: #ff4d4d; color: white; border: none; padding: 8px 20px; border-radius: 25px; font-weight: bold; cursor: pointer; margin-top: 15px; }
+.excluir-btn:hover { background-color: #cc0000; }
+.btn-excluir-mini { position: absolute; top: 15px; right: 15px; background: transparent; border: none; font-size: 1.2rem; cursor: pointer; opacity: 0.5; }
+.btn-excluir-mini:hover { opacity: 1; color: red; }
