@@ -342,7 +342,7 @@ function configurarFormularios() {
                 }
             } catch(err) { 
                 console.error(err); 
-                alert('Erro no envio.'); 
+                alert('Erro ao enviar.'); 
             } finally { 
                 btn.innerText = txt; 
                 btn.disabled = false; 
