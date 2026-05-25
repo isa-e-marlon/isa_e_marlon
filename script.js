@@ -323,7 +323,7 @@ function configurarFormularios() {
                     const { error: upError } = await supabaseClient.storage.from('imagens').upload(nomeArquivo, arquivo);
                     if(upError) throw upError;
                     
-                    const urlFinal = `${SUPABASE_URL}/storage/v1/object/imagens/public/${nomeArquivo}`;
+                    const urlFinal = `${SUPABASE_URL}/storage/v1/object/public/imagens/${nomeArquivo}`;
                     
                     // Salvar no Banco (Usando a data atual)
                     const hoje = new Date().toISOString(); 
