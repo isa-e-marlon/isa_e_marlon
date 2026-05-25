@@ -178,7 +178,7 @@ async function carregarLugares(container) {
     
     container.innerHTML = '';
     data.forEach(l => {
-        const btnExcluir = usuarioLogado ? `<button class="excluir-btn2" onclick="excluirItem('lugares', ${l.id})">🗑️</button>` : '';
+        const btnExcluir = usuarioLogado ? `<button class="excluir-btn2" onclick="excluirItem('lugares', '${l.id}')">🗑️</button>` : '';
         const div = document.createElement('div');
         div.className = 'lugar';
         
@@ -210,7 +210,7 @@ async function carregarMensagens(container) {
     if(!data) return;
     container.innerHTML = '';
     data.forEach(m => {
-        const btnExcluir = usuarioLogado ? `<button class="excluir-btn" onclick="excluirMensagem(${m.id}, '${m.imagem_url}')">🗑️ Excluir</button>` : '';
+        const btnExcluir = usuarioLogado ? `<button class="excluir-btn" onclick="excluirMensagem('${m.id}', '${m.imagem_url}')">🗑️ Excluir</button>` : '';
         const div = document.createElement('div');
         div.className = 'mensagem';
         
