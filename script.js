@@ -341,8 +341,8 @@ function configurarFormularios() {
                     msgForm.reset();
                 }
             } catch(err) { 
-                console.error(err); 
-                alert('Erro ao enviar.'); 
+                console.error("ERRO DETALHADO:", err); 
+                alert('Erro no envio: ' + (err.message || err.error_description || 'Olhe o console (F12)'));
             } finally { 
                 btn.innerText = txt; 
                 btn.disabled = false; 
