@@ -126,7 +126,7 @@ async function carregarFilmes() {
         div.className = 'card-filme';
 
         const btnExcluir = usuarioLogado 
-            ? `<button class="btn-excluir-mini" onclick="excluirItem('filmes', ${filme.id})">🗑️</button>` 
+            ? `<button class="btn-excluir-mini" onclick="excluirItem('filmes', '${filme.id}')">🗑️</button>` 
             : '';
 
         if (filme.assistido) {
